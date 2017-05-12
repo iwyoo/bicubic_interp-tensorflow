@@ -1,5 +1,5 @@
 # bicubic_interp-tensorflow
-A differentiable bicubic interpolation module of TensorFlow
+A differentiable bicubic interpolation module for TensorFlow
 
 ### Exmple : test.py
 ```tf.image.resize_bicubic``` doesn't support its gradients for speed issues.
