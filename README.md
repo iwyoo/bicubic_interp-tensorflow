@@ -1,4 +1,4 @@
-# Bicubic_interp-tensorflow
+# bicubic_interp-tensorflow
 A differentiable bicubic interpolation module of TensorFlow
 
 ### Exmple : test.py
