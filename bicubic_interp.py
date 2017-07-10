@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-def bicubic_interp_2d(input_, new_size):
+def bicubic_interp_2d(input_, new_size, endpoint=True):
   """
   Args :
     input_ : Input tensor. Its shape should be
@@ -18,9 +18,9 @@ def bicubic_interp_2d(input_, new_size):
   channel = shape[3]
  
   def _hermite(A, B, C, D, t):
-    a = A * -0.5 + B * 1.5 + C * -1.5 + D * 0.5
-    b = A + B * -2.5 + C * 2.0 + D * -0.5
-    c = A * -0.5 + C * 0.5
+    a = A * (-0.5) + B * 1.5 + C * (-1.5) + D * 0.5
+    b = A + B * (-2.5) + C * 2.0 + D * (-0.5)
+    c = A * (-0.5) + C * 0.5
     d = B
 
     return a*t*t*t + b*t*t + c*t + d
@@ -31,22 +31,24 @@ def bicubic_interp_2d(input_, new_size):
     y = np.expand_dims(y, axis=4)
     x = np.expand_dims(x, axis=4)
     c = np.expand_dims(c, axis=4)
+    
     return np.concatenate([n,y,x,c], axis=4)
 
-  def _get_frac_array(x_d, y_d, n, c):
-    x = x_d.shape[0]
+  def _get_frac_array(y_d, x_d, n, c):
     y = y_d.shape[0]
-    x_t = x_d.reshape([1, 1, -1, 1])
+    x = x_d.shape[0]
     y_t = y_d.reshape([1, -1, 1, 1])
-    y_t = np.tile(y_t, (n,1,x,c))
-    x_t = np.tile(x_t, (n,y,1,c))
-    return x_t, y_t
+    x_t = x_d.reshape([1, 1, -1, 1])
+    y_t = tf.constant(np.tile(y_t, (n,1,x,c)), dtype=tf.float32)
+    x_t = tf.constant(np.tile(x_t, (n,y,1,c)), dtype=tf.float32)
+    return y_t, x_t
 
   def _get_index_tensor(grid, x, y):
     new_grid = np.array(grid)
-    
+
     grid_y = grid[:,:,:,:,1] + y
     grid_x = grid[:,:,:,:,2] + x
+
     grid_y = np.clip(grid_y, 0, height-1)
     grid_x = np.clip(grid_x, 0, width-1)
 
@@ -61,16 +63,22 @@ def bicubic_interp_2d(input_, new_size):
   n_i = np.arange(batch_size)
   c_i = np.arange(channel)
 
-  y_f = np.linspace(0., height-1, new_height)
+  if endpoint:
+    y_f = np.linspace(0., height-1, new_height)
+  else:
+    y_f = np.linspace(0., height, new_height, endpoint=False)
   y_i = y_f.astype(np.int32)
   y_d = y_f - np.floor(y_f)
 
-  x_f = np.linspace(0., width-1, new_width)
+  if endpoint:
+    x_f = np.linspace(0., width-1, new_width)
+  else:
+    x_f = np.linspace(0., width, new_width, endpoint=False)
   x_i = x_f.astype(np.int32)
-  x_d = x_f - np.floor(x_f)
+  x_d = x_f - np.floor(x_f) 
 
   grid = _get_grid_array(n_i, y_i, x_i, c_i)
-  x_t, y_t = _get_frac_array(x_d, y_d, batch_size, channel)
+  y_t, x_t = _get_frac_array(y_d, x_d, batch_size, channel)
 
   i_00 = _get_index_tensor(grid, -1, -1)
   i_10 = _get_index_tensor(grid, +0, -1)
