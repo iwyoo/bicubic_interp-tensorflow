@@ -12,7 +12,7 @@ size = [6,6]
 
 t0 = time.time()
 y0 = bicubic_interp_2d(x, size)
-y1 = bicubic_interp_2d(x, size, endpoint=False)
+y1 = bicubic_interp_2d(x, size, endpoint=True)
 #print "Gen graph : ", time.time() - t0
 z = tf.image.resize_bicubic(x, size)
 
@@ -36,5 +36,5 @@ print "bicubic_interp_2d : {}".format([6,6])
 print y0_[0,:,:,0]
 print ""
 
-print "bicubic_interp_2d w/ endpoint=False : {}".format([6,6])
+print "bicubic_interp_2d w/ endpoint=True : {}".format([6,6])
 print y1_[0,:,:,0]

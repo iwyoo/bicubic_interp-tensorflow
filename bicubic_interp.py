@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-def bicubic_interp_2d(input_, new_size, endpoint=True):
+def bicubic_interp_2d(input_, new_size, endpoint=False):
   """
   Args :
     input_ : Input tensor. Its shape should be

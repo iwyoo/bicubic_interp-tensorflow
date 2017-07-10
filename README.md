@@ -1,10 +1,16 @@
 # bicubic_interp-tensorflow
 A differentiable bicubic interpolation module for TensorFlow
 
+### Usage
+```python
+x = bicubic_interp_2d(x, [H, W])
+x = bicubic_interp_2d(x, [H, W], endpoint=True)
+```
+
 ### Exmple : test.py
 ```tf.image.resize_bicubic``` doesn't support its gradients for speed issues.
-It works different for boundary condition with ```tf.image.resize_bicubic```.
-(It is intended and will not be fixed.). You can use "endpoint=False" if you want to the original boundary condition.
+This implementation supports gradients, so you can freely train your network with this module. 
+You can also use "endpoint" argument to control the boundary condition.
 
 ```
 input : [3, 3]
@@ -20,21 +26,21 @@ tf.image.resize_bicubic : [6, 6]
  [ 6.       6.40625  7.       7.59375  8.       8.09375]
  [ 6.28125  6.6875   7.28125  7.875    8.28125  8.375  ]]
 
-bicubic_interp_2d : [6, 6]
-[[ 0.          0.32800001  0.78400004  1.21599996  1.67200005  2.        ]
- [ 0.98400003  1.31200004  1.76800013  2.20000005  2.65600014  2.98399997]
- [ 2.352       2.68000007  3.13600016  3.56799984  4.02400017  4.35200024]
- [ 3.648       3.97600007  4.43200016  4.86400032  5.31999969  5.64799976]
- [ 5.01599979  5.34400034  5.80000019  6.23200035  6.68799973  7.01599979]
- [ 6.          6.32800007  6.78399992  7.21600008  7.67199993  8.        ]]
-
-bicubic_interp_2d w/ endpoint=False: [6, 6]
+bicubic_interp_2d: [6, 6]
 [[ 0.      0.4375  1.      1.5625  2.      2.0625]
  [ 1.3125  1.75    2.3125  2.875   3.3125  3.375 ]
  [ 3.      3.4375  4.      4.5625  5.      5.0625]
  [ 4.6875  5.125   5.6875  6.25    6.6875  6.75  ]
  [ 6.      6.4375  7.      7.5625  8.      8.0625]
  [ 6.1875  6.625   7.1875  7.75    8.1875  8.25  ]]
+
+bicubic_interp_2d w/ endpoint=True : [6, 6]
+[[ 0.          0.32800001  0.78400004  1.21599996  1.67200005  2.        ]
+ [ 0.98400003  1.31200004  1.76800013  2.20000005  2.65600014  2.98399997]
+ [ 2.352       2.68000007  3.13600016  3.56799984  4.02400017  4.35200024]
+ [ 3.648       3.97600007  4.43200016  4.86400032  5.31999969  5.64799976]
+ [ 5.01599979  5.34400034  5.80000019  6.23200035  6.68799973  7.01599979]
+ [ 6.          6.32800007  6.78399992  7.21600008  7.67199993  8.        ]]
 ```
 
 ### Reference 
