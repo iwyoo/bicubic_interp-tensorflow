@@ -13,7 +13,6 @@ size = [6,6]
 t0 = time.time()
 y0 = bicubic_interp_2d(x, size)
 y1 = bicubic_interp_2d(x, size, endpoint=True)
-#print "Gen graph : ", time.time() - t0
 z = tf.image.resize_bicubic(x, size)
 
 sess = tf.Session()
@@ -21,7 +20,6 @@ x_ = sess.run(x)
 t0 = time.time()
 y0_ = sess.run(y0)
 y1_ = sess.run(y1)
-#print "Interp : ", time.time() - t0
 z_ = sess.run(z)
 
 print "input : [3, 3]"

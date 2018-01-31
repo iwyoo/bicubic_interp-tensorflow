@@ -8,7 +8,8 @@ def bicubic_interp_2d(input_, new_size, endpoint=False):
         [batch_size, height, width, channel].
         In this implementation, the shape should be fixed for speed.
     new_size : The output size [new_height, new_width]
-  ref : http://blog.demofox.org/2015/08/15/resizing-images-with-bicubic-interpolation/
+  ref : 
+    http://blog.demofox.org/2015/08/15/resizing-images-with-bicubic-interpolation/
   """
 
   shape = input_.get_shape().as_list()
@@ -127,6 +128,3 @@ def bicubic_interp_2d(input_, new_size, endpoint=False):
   value = _hermite(col0, col1, col2, col3, y_t)
   
   return value
-
-
-# Future : bicubic_interp_3d
