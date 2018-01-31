@@ -7,7 +7,7 @@ x = bicubic_interp_2d(x, [H, W])
 x = bicubic_interp_2d(x, [H, W], endpoint=True)
 ```
 
-### Exmple : test.py
+### Exmple : `test_upsample.py`, `test_downsample.py`
 ```tf.image.resize_bicubic``` doesn't support its gradients for speed issues.
 This implementation supports gradients, so you can freely train your network with this module. 
 You can also use "endpoint" argument to control the boundary condition.
