@@ -46,7 +46,7 @@ bicubic_interp_2d w/ endpoint=True : [6, 6]
 
 #### Downsample
 ```
-input : [3, 3]
+input : [6, 6]
 [[  0.   1.   2.   3.   4.   5.]
  [  6.   7.   8.   9.  10.  11.]
  [ 12.  13.  14.  15.  16.  17.]
@@ -54,17 +54,17 @@ input : [3, 3]
  [ 24.  25.  26.  27.  28.  29.]
  [ 30.  31.  32.  33.  34.  35.]]
 
-tf.image.resize_bicubic : [6, 6]
+tf.image.resize_bicubic : [3, 3]
 [[  0.   2.   4.]
  [ 12.  14.  16.]
  [ 24.  26.  28.]]
 
-bicubic_interp_2d : [6, 6]
+bicubic_interp_2d : [3, 3]
 [[  0.   2.   4.]
  [ 12.  14.  16.]
  [ 24.  26.  28.]]
 
-bicubic_interp_2d w/ endpoint=True : [6, 6]
+bicubic_interp_2d w/ endpoint=True : [3, 3]
 [[  0.    2.5   5. ]
  [ 15.   17.5  20. ]
  [ 30.   32.5  35. ]]

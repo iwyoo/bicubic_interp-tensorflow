@@ -22,17 +22,17 @@ y0_ = sess.run(y0)
 y1_ = sess.run(y1)
 z_ = sess.run(z)
 
-print "input : [3, 3]"
+print "input : [{}, {}]".format(n, n)
 print x_[0,:,:,0]
 print ""
 
-print "tf.image.resize_bicubic : {}".format([6,6])
+print "tf.image.resize_bicubic : {}".format(size)
 print z_[0,:,:,0]
 print ""
 
-print "bicubic_interp_2d : {}".format([6,6])
+print "bicubic_interp_2d : {}".format(size)
 print y0_[0,:,:,0]
 print ""
 
-print "bicubic_interp_2d w/ endpoint=True : {}".format([6,6])
+print "bicubic_interp_2d w/ endpoint=True : {}".format(size)
 print y1_[0,:,:,0]
